@@ -1,19 +1,23 @@
 # Octo Release Draft Couscous
 
-<center>![couscousani](https://user-images.githubusercontent.com/48270786/78554231-6bc02180-7828-11ea-9eb4-3fb2667b377f.png)
-</center>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/48270786/78556023-d757be00-782b-11ea-9588-8ea2327df64b.png">
+</p>
+<br>
+
+<p align="center">
+    <b>Automate drafting release notes process for your project.</b>
+</p>
 
 A GitHub action to automatically draft a GitHub release based on a newly created version tag.
 
-The release notes will include the commit messages between the created version tag and the one that came before it.
-
-<b>Creates easy and fast release notes for your projects.</b>
+The drafted release notes will include the commit messages between the created version tag and the one before it.
 
 ## What is a Couscous?
 
 <i>Couscous originated as a Maghrebi dish of small steamed balls of crushed durum wheat semolina that is traditionally served with a stew spooned on top.</i>
 
-I took this excerpt from [Wikipedia](https://en.wikipedia.org/wiki/Couscous) and didn't know it existed before naming the action. The idea for the name came from Github randomly generated name suggestions on creating a repository so I just sticked with it.
+I took this excerpt from [Wikipedia](https://en.wikipedia.org/wiki/Couscous) and didn't know it existed before naming the action. The idea for the name came from Github's randomly generated name suggestions on creating a repository so I just sticked with it.
 
 ## How a Release Draft Couscous is Prepared:
 
@@ -79,3 +83,14 @@ jobs:
         if: steps.create-release-draft.outputs.release-url != ''
         run: echo ${{ steps.create-release-draft.outputs.release-url }}
 ```
+## How It Works:
+
+I made the following graphic to explain (my future self) how a release couscous is prepared (I should stop with the puns). 
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/48270786/78558625-91512900-7830-11ea-91bf-cd307167a98b.png">
+</p>
+
+### Uses:
+- GitHub REST API 
+- Built upon gh-action Typescript template
