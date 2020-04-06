@@ -1,101 +1,81 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+# Octo Release Draft Couscous
 
-# Create a JavaScript Action using TypeScript
+<center>![couscousani](https://user-images.githubusercontent.com/48270786/78554231-6bc02180-7828-11ea-9eb4-3fb2667b377f.png)
+</center>
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
+A GitHub action to automatically draft a GitHub release based on a newly created version tag.
 
-This template includes compilication support, tests, a validation workflow, publishing, and versioning guidance.  
+The release notes will include the commit messages between the created version tag and the one that came before it.
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+<b>Creates easy and fast release notes for your projects.</b>
 
-## Create an action from this template
+## What is a Couscous?
 
-Click the `Use this Template` and provide the new repo details for your action
+<i>Couscous originated as a Maghrebi dish of small steamed balls of crushed durum wheat semolina that is traditionally served with a stew spooned on top.</i>
 
-## Code in Master
+I took this excerpt from [Wikipedia](https://en.wikipedia.org/wiki/Couscous) and didn't know it existed before naming the action. The idea for the name came from Github randomly generated name suggestions on creating a repository so I just sticked with it.
 
-Install the dependencies  
-```bash
-$ npm install
+## How a Release Draft Couscous is Prepared:
+
+Example: Let's assume the history of your repository looks like this:
+
+```
+    ┌────┐      ┌────┐
+    │ v1 │      │ v2 │           # Release Notes will include
+    └────┘      └────┘
+       │           │     ━━━━▶   - D
+       ▼           ▼             - C
+ A ─ ─ B ─ ─ C ─ ─ D
 ```
 
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run pack
+Here, `v2` is the last created version tag. When `octorelease-couscous` runs, it will draft a release with the commit messages for `C` and `D` as the release notes.
+
+If the created version tag is the first one in the repository, then all commit messages from the beginning of the repository's history will be included in the release notes:
+
+```
+                ╔════╗           # Release Notes will include
+                ║ v1 ║
+                ╚════╝           - D
+                   │    ━━━━▶   - C
+                   ▼             - B
+ A ─ ─ B ─ ─ C ─ ─ D             - A
 ```
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
+In this case, the release notes will contain the messages for `A`, `B`, `C` and `D`.
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
+A version tag is an [annotated tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging#_annotated_tags) whose name starts with the prefix `v` followed by one or more characters. This means `v1`, `v.1`, `v1.0.0` and `v1.0.0-beta1` are all valid version tags. To learn more about `semver` or Semantic Versioning read [here](https://semver.org).
 
-...
-```
+## Input:
 
-## Change action.yml
+### `repo-token`
 
-The action.yml contains defines the inputs and output for your action.
+**(Required)** The `GITHUB_TOKEN` is used to access the current repository from the GitHub REST API to get commit details.
 
-Update the action.yml with your name, description, inputs and outputs for your action.
+## Output:
 
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
+### `release-url`
 
-## Change the Code
+The URL of the GitHub release draft cooked up. Defaults to an empty string.
 
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
+## Usage
 
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run pack
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml)])
+An example of a workflow that listens for the `create` event and automatically creates a release draft with the commit messages as release notes. It also prints the URL of the release page to the build log.
 
 ```yaml
-uses: ./
-with:
-  milliseconds: 1000
+name: Test
+on:
+  create:
+jobs:
+  release:
+    name: Release
+    runs-on: [windows-latest, ubuntu-latest]
+    steps:
+      - name: Create a release draft for a version tag
+        id: create-release-draft
+        uses: kartik918/octorelease-couscous@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Print the URL of the release draft
+        if: steps.create-release-draft.outputs.release-url != ''
+        run: echo ${{ steps.create-release-draft.outputs.release-url }}
 ```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
-
-## Usage:
-
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
