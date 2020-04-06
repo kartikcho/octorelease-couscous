@@ -1,6 +1,10 @@
 name: 'Octo Release Couscous'
 description: 'Github action that creates a draft of Github release with the changes introduced by a newly created version tag'
 author: 'Kartik Choudhary'
+inputs:
+  repo-token:
+    description: 'GITHUB_TOKEN used to authenticate the current repo'
+    required: true
 outputs:
   release-url:
     description: 'The URL of the Github release that was drafted'

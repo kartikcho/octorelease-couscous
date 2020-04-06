@@ -2,7 +2,7 @@
   "name": "octorelease-couscous",
   "version": "1.0.0",
   "private": true,
-  "description": "Github action that creates a draft of Github release with the changes introduced by a newly created version tag",
+  "description": "Github action that creates a draft Github release with the changes introduced on a newly created version tag",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -25,11 +25,16 @@
   "author": "Kartik Choudhary",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.0"
+    "@actions/core": "^1.2.0",
+    "@actions/exec": "^1.0.3",
+    "@actions/github": "^2.1.1",
+    "semver": "^7.1.3"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
+    "@types/jest-when": "^2.7.0",
     "@types/node": "^12.7.12",
+    "@types/semver": "^6.2.0",
     "@typescript-eslint/parser": "^2.8.0",
     "@zeit/ncc": "^0.20.5",
     "eslint": "^5.16.0",
@@ -37,9 +42,10 @@
     "eslint-plugin-jest": "^22.21.0",
     "jest": "^24.9.0",
     "jest-circus": "^24.9.0",
+    "jest-when": "^2.7.0",
     "js-yaml": "^3.13.1",
     "prettier": "^1.19.1",
     "ts-jest": "^24.2.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.4"
   }
 }
