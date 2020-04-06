@@ -4,22 +4,21 @@ on:
     branches:
       -master
   create:
-
 jobs:
   test:
     name: Test
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
-            
+        os: [windows-latest, ubuntu-latest]    
     steps:
-      - name: Get source
+      - name: Get the sources
         uses: actions/checkout@v1
-      - name: Create a release draft for version tag
+      - name: Create a release draft for a version tag
         id: create-release-draft
         uses: ./
         with:
-          repo-token: ${{secrets.GITHUB_TOKEN}}
-      - name: Print URL of release draft
-        run: echo ${{steps.create-release-draft.outputs.release-url}}
+          repo-token: ${{ secrets.GITHUB_TOKEN  }}
+      - name: Print the URL of the release draft
+        if: steps.create-release-draft.outputs.release-url != ''
+        run: echo ${{ steps.create-release-draft.outputs.release-url }}
