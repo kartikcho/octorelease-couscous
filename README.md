@@ -3,7 +3,14 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/48270786/78556023-d757be00-782b-11ea-9588-8ea2327df64b.png">
 </p>
+
 <br>
+
+<div align="center">
+
+![Build](https://github.com/kartik918/octorelease-couscous/workflows/Build/badge.svg) ![Test](https://github.com/kartik918/octorelease-couscous/workflows/Test/badge.svg?branch=maintenance-1)
+
+</div>
 
 <p align="center">
     <b>Automate drafting release notes process for your project.</b>
